@@ -18,7 +18,7 @@ import (
 )
 
 // Setup session
-session.Setup()
+core.RegisterSession(session.New())
 ```
 
 ### Controller (Page/API)

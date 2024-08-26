@@ -4,7 +4,7 @@ go 1.22.6
 
 require (
 	github.com/gflydev/core v1.10.1
-	github.com/gflydev/session v1.0.0
+	github.com/gflydev/session v1.0.1
 	github.com/redis/go-redis/v9 v9.6.1
 	github.com/valyala/bytebufferpool v1.0.0
 )
