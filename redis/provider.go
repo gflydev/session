@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/gflydev/core/log"
 	"github.com/gflydev/core/utils"
 	"time"
 
@@ -15,7 +16,7 @@ import (
 var all = []byte("*")
 
 // New returns a new configured redis provider
-func New() (*Provider, error) {
+func New() *Provider {
 	// Build Redis connection URL.
 	redisConnURL := fmt.Sprintf(
 		"%s:%d",
@@ -30,10 +31,6 @@ func New() (*Provider, error) {
 		DB:              utils.Getenv("REDIS_SESSION_DB", 0),
 		PoolSize:        8,
 		ConnMaxIdleTime: 30 * time.Second,
-	}
-
-	if cfg.Addr == "" {
-		return nil, ErrConfigAddrEmpty
 	}
 
 	if cfg.Logger != nil {
@@ -71,7 +68,7 @@ func New() (*Provider, error) {
 	})
 
 	if err := db.Ping(context.Background()).Err(); err != nil {
-		return nil, newErrRedisConnection(err)
+		log.Panicf("Error connecting to redis: %v", err)
 	}
 
 	p := &Provider{
@@ -79,7 +76,7 @@ func New() (*Provider, error) {
 		db:        db,
 	}
 
-	return p, nil
+	return p
 }
 
 // NewFailover returns a new redis provider using sentinel to determine the redis server to connect to.
@@ -202,5 +199,4 @@ func (p *Provider) Get(id []byte) ([]byte, error) {
 	}
 
 	return reply, nil
-
 }

@@ -6,25 +6,24 @@
 
 Install
 ```bash
-go get -u github.com/gflydev/session/redis@v1.0.0
+go get -u github.com/gflydev/session@v1.0.1
+go get -u github.com/gflydev/session/redis@v1.0.1
 ```
-
 
 Quick usage `main.go`
 ```go
 import (
     "github.com/gflydev/session"
-    _ "github.com/gflydev/session/memory"	
+    sessionRedis "github.com/gflydev/session/redis"	
 )
 
 // Setup session
+session.Register(sessionRedis.New())
 core.RegisterSession(session.New())
 ```
 
 ### Controller (Page/API)
 ```go
-// Note: `c` is `*core.Ctx`
-
 // Set session
 c.SetSession("foo", utils.UnsafeStr(utils.RandByte(make([]byte, 128))))
 

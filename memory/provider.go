@@ -29,12 +29,10 @@ func releaseItem(item *item) {
 }
 
 // New returns a new memory provider configured
-func New() (*Provider, error) {
-	p := &Provider{
+func New() *Provider {
+	return &Provider{
 		config: Config{},
 	}
-
-	return p, nil
 }
 
 func (p *Provider) getSessionKey(sessionID []byte) string {
