@@ -13,6 +13,8 @@ github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cu
 github.com/gflydev/core v1.8.0 h1:h9Uh+Un5NOFy6BkKkMIKSRUgnN+KzU23KbKJeb7iuVU=
 github.com/gflydev/core v1.8.0/go.mod h1:/YjYOURtefBGNqkQWGtP51A6eWkTovh9di2N81RDWhs=
 github.com/gflydev/core v1.9.0/go.mod h1:/YjYOURtefBGNqkQWGtP51A6eWkTovh9di2N81RDWhs=
+github.com/gflydev/core v1.10.1 h1:v2Dz6vWnj1SX9ZHU2u/lFAELkR1CQLjnc8K7i7tJ3Q8=
+github.com/gflydev/core v1.10.1/go.mod h1:/YjYOURtefBGNqkQWGtP51A6eWkTovh9di2N81RDWhs=
 github.com/gflydev/session v1.0.0/go.mod h1:ssu/j9RIfnviO3Y6SrCiy5NdA6WnsHbG1WmUoV0Elq4=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=

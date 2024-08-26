@@ -4,6 +4,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gflydev/core v1.9.0 h1:k+9z4HKSmVDll/FkZPYyK0AYsRIzURZl3wcd9jxKhfs=
 github.com/gflydev/core v1.9.0/go.mod h1:/YjYOURtefBGNqkQWGtP51A6eWkTovh9di2N81RDWhs=
+github.com/gflydev/core v1.10.1 h1:v2Dz6vWnj1SX9ZHU2u/lFAELkR1CQLjnc8K7i7tJ3Q8=
+github.com/gflydev/core v1.10.1/go.mod h1:/YjYOURtefBGNqkQWGtP51A6eWkTovh9di2N81RDWhs=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=

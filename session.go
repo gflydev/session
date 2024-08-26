@@ -13,8 +13,8 @@ var (
 	defaultLogger Logger = log.New(os.Stderr, "", log.LstdFlags)
 )
 
-// New returns a configured manager
-func New(cfg Config) *Session {
+// NewSession returns a configured manager
+func NewSession(cfg Config) *Session {
 	cfg.cookieLen = defaultCookieLen
 
 	if cfg.CookieName == "" {

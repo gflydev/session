@@ -3,7 +3,7 @@ module github.com/gflydev/session
 go 1.22.6
 
 require (
-	github.com/gflydev/core v1.9.0
+	github.com/gflydev/core v1.10.1
 	github.com/tinylib/msgp v1.2.0
 	github.com/valyala/fasthttp v1.55.0
 )

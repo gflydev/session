@@ -2,7 +2,8 @@ module github.com/gflydev/session/memory
 
 go 1.22.6
 
-require github.com/gflydev/core v1.9.0
+require github.com/gflydev/core v1.10.1
+
 require github.com/gflydev/session v1.0.0
 
 require (

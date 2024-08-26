@@ -22,26 +22,26 @@ func Register(p Provider) {
 
 var sessionManager *Session
 
-func Setup() {
+// New create session manager and session adapter
+func New() *Adapter {
 	// Create session manager
 	cfg := NewDefaultConfig()
 	cfg.EncodeFunc = MSGPEncode
 	cfg.DecodeFunc = MSGPDecode
-	sessionManager = New(cfg)
+	sessionManager = NewSession(cfg)
 
 	if err := sessionManager.SetProvider(provider); err != nil {
 		log.Fatal(err)
 	}
 
-	// Register session into core
-	core.RegisterSession(&adapter{})
+	return &Adapter{}
 }
 
 // Adapter instance for Session with Core
-type adapter struct {
+type Adapter struct {
 }
 
-func (v *adapter) Set(c *core.Ctx, key string, value interface{}) {
+func (v *Adapter) Set(c *core.Ctx, key string, value interface{}) {
 	store, err := sessionManager.Get(c.Root())
 	if err != nil {
 		log.Fatal(err)
@@ -56,7 +56,7 @@ func (v *adapter) Set(c *core.Ctx, key string, value interface{}) {
 	store.Set(key, value)
 }
 
-func (v *adapter) Get(c *core.Ctx, key string) interface{} {
+func (v *Adapter) Get(c *core.Ctx, key string) interface{} {
 	store, err := sessionManager.Get(c.Root())
 	if err != nil {
 		log.Fatal(err)
