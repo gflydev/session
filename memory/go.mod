@@ -1,12 +1,13 @@
 module github.com/gflydev/session/memory
 
-go 1.22.6
+go 1.24.0
 
-require github.com/gflydev/core v1.10.2
+require github.com/gflydev/core v1.11.3
 
 require (
-	github.com/andybalholm/brotli v1.1.0 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/andybalholm/brotli v1.1.1 // indirect
+	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.55.0 // indirect
+	github.com/valyala/fasthttp v1.60.0 // indirect
+	golang.org/x/crypto v0.37.0 // indirect
 )
