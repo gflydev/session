@@ -1,8 +1,8 @@
 package redis
 
 import (
-	"errors"
 	"fmt"
+	"github.com/gflydev/core/errors"
 )
 
 var (

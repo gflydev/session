@@ -4,8 +4,8 @@ package redis
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"github.com/gflydev/core/errors"
 	"github.com/gflydev/core/log"
 	"github.com/gflydev/core/utils"
 	"time"
