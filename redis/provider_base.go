@@ -24,8 +24,6 @@ func (p *Provider) getRedisSessionKey(sessionID []byte) string {
 
 	bytebufferpool.Put(key)
 
-	log.Tracef("session key : %v", keyStr)
-
 	return keyStr
 }
 
