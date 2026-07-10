@@ -3,6 +3,6 @@ package session
 import "github.com/gflydev/core/errors"
 
 var (
-	ErrNotSetProvider = errors.New("Not set a session provider")
-	ErrEmptySessionID = errors.New("Empty session id")
+	ErrNotSetProvider = errors.New("session provider is not set")
+	ErrEmptySessionID = errors.New("session id is empty")
 )

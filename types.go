@@ -73,6 +73,7 @@ type Session struct {
 
 	storePool  sync.Pool
 	stopGCChan chan struct{}
+	closeOnce  sync.Once
 }
 
 // Store represents the user session
@@ -99,4 +100,6 @@ type Provider interface {
 	Count() int
 	NeedGC() bool
 	GC() error
+	// Close releases any resources held by the provider (connections, pools).
+	Close() error
 }

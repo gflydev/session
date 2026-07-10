@@ -95,9 +95,21 @@ func (s *Session) startGC() {
 	}
 }
 
-/*func (s *Session) stopGC() {
-	s.stopGCChan <- struct{}{}
-}*/
+// Close stops the background GC goroutine (if running) and releases the
+// underlying provider resources. It is safe to call multiple times.
+func (s *Session) Close() error {
+	var err error
+
+	s.closeOnce.Do(func() {
+		close(s.stopGCChan)
+
+		if s.provider != nil {
+			err = s.provider.Close()
+		}
+	})
+
+	return err
+}
 
 func (s *Session) setHTTPValues(ctx *fasthttp.RequestCtx, sessionID []byte, expiration time.Duration) {
 	secure := s.config.Secure && s.config.IsSecureFunc(ctx)
@@ -175,7 +187,12 @@ func (s *Session) Get(ctx *fasthttp.RequestCtx) (*Store, error) {
 		}
 
 		if err := s.config.DecodeFunc(&store.data, data); err != nil {
-			return store, nil
+			// Corrupt or incompatible payload: log it and fall back to a fresh
+			// store rather than failing the request.
+			s.log.Printf("session decode failed for id %q, resetting store: %v", id, err)
+			store.Reset()
+			store.sessionID = id
+			store.defaultExpiration = s.config.Expiration
 		}
 	}
 
