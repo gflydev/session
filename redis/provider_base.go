@@ -2,23 +2,22 @@ package redis
 
 import (
 	"context"
-	"github.com/gflydev/core/log"
+	"io"
 	"time"
 
 	"github.com/valyala/bytebufferpool"
 )
 
+// scanBatchSize is the COUNT hint passed to Redis SCAN while counting sessions.
+const scanBatchSize = 100
+
 func (p *Provider) getRedisSessionKey(sessionID []byte) string {
 	key := bytebufferpool.Get()
+	// bytebuffer writes never fail (they append to an in-memory slice), so the
+	// returned errors are intentionally ignored.
 	key.SetString(p.keyPrefix)
-	_, err := key.WriteString(":")
-	if err != nil {
-		log.Fatalf("session key generation failed: %v", err)
-	}
-	_, err = key.Write(sessionID)
-	if err != nil {
-		log.Fatalf("session key generation failed: %v", err)
-	}
+	_, _ = key.WriteString(":")
+	_, _ = key.Write(sessionID)
 
 	keyStr := key.String()
 
@@ -65,14 +64,34 @@ func (p *Provider) Destroy(id []byte) error {
 	return p.db.Del(context.Background(), key).Err()
 }
 
-// Count returns the total of stored sessions
+// Count returns the total of stored sessions.
+//
+// It uses a cursor-based SCAN instead of KEYS so it does not block the Redis
+// server while iterating over the keyspace.
 func (p *Provider) Count() int {
-	reply, err := p.db.Keys(context.Background(), p.getRedisSessionKey(all)).Result()
-	if err != nil {
-		return 0
+	match := p.getRedisSessionKey(all)
+	ctx := context.Background()
+
+	var (
+		count  int
+		cursor uint64
+	)
+
+	for {
+		keys, next, err := p.db.Scan(ctx, cursor, match, scanBatchSize).Result()
+		if err != nil {
+			return 0
+		}
+
+		count += len(keys)
+		cursor = next
+
+		if cursor == 0 {
+			break
+		}
 	}
 
-	return len(reply)
+	return count
 }
 
 // NeedGC indicates if the GC needs to be run
@@ -82,5 +101,14 @@ func (p *Provider) NeedGC() bool {
 
 // GC destroys the expired sessions
 func (p *Provider) GC() error {
+	return nil
+}
+
+// Close closes the underlying Redis client and its connection pool.
+func (p *Provider) Close() error {
+	if closer, ok := p.db.(io.Closer); ok {
+		return closer.Close()
+	}
+
 	return nil
 }

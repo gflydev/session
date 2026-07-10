@@ -44,12 +44,13 @@ type Adapter struct {
 func (v *Adapter) Set(c *core.Ctx, key string, value interface{}) {
 	store, err := sessionManager.Get(c.Root())
 	if err != nil {
-		log.Fatal(err)
+		log.Errorf("session set failed to load store: %v", err)
+		return
 	}
 
 	defer func() {
 		if err := sessionManager.Save(c.Root(), store); err != nil {
-			log.Fatal(err)
+			log.Errorf("session set failed to save store: %v", err)
 		}
 	}()
 
@@ -59,14 +60,25 @@ func (v *Adapter) Set(c *core.Ctx, key string, value interface{}) {
 func (v *Adapter) Get(c *core.Ctx, key string) interface{} {
 	store, err := sessionManager.Get(c.Root())
 	if err != nil {
-		log.Fatal(err)
+		log.Errorf("session get failed to load store: %v", err)
+		return nil
 	}
 
 	defer func() {
 		if err := sessionManager.Save(c.Root(), store); err != nil {
-			log.Fatal(err)
+			log.Errorf("session get failed to save store: %v", err)
 		}
 	}()
 
 	return store.Get(key)
+}
+
+// Close releases resources held by the session manager, including the GC
+// goroutine and the underlying provider connection.
+func (v *Adapter) Close() error {
+	if sessionManager == nil {
+		return nil
+	}
+
+	return sessionManager.Close()
 }

@@ -120,6 +120,18 @@ func (p *Provider) NeedGC() bool {
 	return true
 }
 
+// Close releases all stored sessions. The in-memory provider holds no
+// external connections, so this simply clears the backing store.
+func (p *Provider) Close() error {
+	p.db.Range(func(key, _ interface{}) bool {
+		_ = p.destroy(key.(string))
+
+		return true
+	})
+
+	return nil
+}
+
 // GC destroys the expired sessions
 func (p *Provider) GC() error {
 	now := time.Now().UnixNano()
